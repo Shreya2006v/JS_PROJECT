@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroQuiz - Interactive Quiz & Analytics Engine</title>
+  <meta name="description" content="Engaging and dynamic self-assessment quiz engine featuring in-depth category-based performance analytics and immediate interactive feedback.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Background decorative elements for glassmorphism layout -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="logo-icon"><polygon points="6 2 18 2 18 6 6 6 6 2"/><rect x="3" y="6" width="18" height="16" rx="2"/><path d="M10 12h4"/><path d="M12 10v4"/></svg>
+        <span class="logo-text">AeroQuiz <span class="logo-accent">Analytics</span></span>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      
+      <!-- SCREEN 1: Welcome Screen -->
+      <section id="welcome-screen" class="screen active">
+        <div class="glass-card welcome-card">
+          <h1>Master Your Skills</h1>
+          <p class="subtitle">Challenge yourself with our curated assessments. Get instant feedback and dynamic analytics broken down by category.</p>
+          
+          <div class="category-selection-container">
+            <h2>Select Quiz Category</h2>
+            <div class="category-grid">
+              <div class="category-card active" data-category="all" id="cat-all">
+                <div class="category-icon all-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                </div>
+                <h3>All Subjects</h3>
+                <p>Test your general skills across all technical topics.</p>
+              </div>
+
+              <div class="category-card" data-category="JavaScript Core" id="cat-js">
+                <div class="category-icon js-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18a4 4 0 0 0-8 0"/><path d="M12 2v12"/><path d="M12 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/></svg>
+                </div>
+                <h3>JavaScript Core</h3>
+                <p>Types, scopes, closures, arrays, and standard functions.</p>
+              </div>
+
+              <div class="category-card" data-category="HTML & CSS" id="cat-html-css">
+                <div class="category-icon css-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3>HTML & CSS</h3>
+                <p>Flexbox, Grid layout, semantic tags, and media queries.</p>
+              </div>
+
+              <div class="category-card" data-category="Web APIs & Browser" id="cat-web-api">
+                <div class="category-icon web-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <h3>Web APIs</h3>
+                <p>DOM manipulation, localStorage, and Fetch API network requests.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-bar">
+            <button id="btn-start" class="btn btn-primary btn-large">
+              <span>Start Assessment</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="btn-arrow"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Active Quiz Screen -->
+      <section id="quiz-screen" class="screen">
+        <div class="glass-card quiz-card">
+          <!-- Quiz Header: Progress & Timer -->
+          <div class="quiz-header">
+            <div class="quiz-meta">
+              <span id="quiz-category-tag" class="category-badge">JavaScript Core</span>
+              <div class="progress-details">
+                Question <span id="current-question-num">1</span> of <span id="total-questions-num">10</span>
+              </div>
+            </div>
+            
+            <div class="timer-container" id="timer-box">
+              <svg class="timer-ring" width="56" height="56">
+                <circle class="timer-ring-bg" stroke="rgba(255, 255, 255, 0.1)" stroke-width="4" fill="transparent" r="24" cx="28" cy="28"/>
+                <circle class="timer-ring-progress" id="timer-indicator" stroke="var(--primary-neon)" stroke-width="4" fill="transparent" r="24" cx="28" cy="28"/>
+              </svg>
+              <div class="timer-text" id="timer-counter">15</div>
+            </div>
+          </div>
+
+          <!-- Progress Bar Wrapper -->
+          <div class="progress-bar-container">
+            <div id="quiz-progress-bar" class="progress-bar-fill" style="width: 10%;"></div>
+          </div>
+
+          <!-- Question Body -->
+          <div class="question-container">
+            <h2 id="quiz-question-text" class="question-text">What is the output of 'typeof null' in JavaScript?</h2>
+            
+            <div class="options-container" id="quiz-options-list">
+              <!-- Dynamic Options inserted by JS -->
+            </div>
+          </div>
+
+          <!-- Feedback Section (Shown after selection) -->
+          <div class="feedback-container hidden" id="quiz-feedback-box">
+            <div class="feedback-status-header">
+              <span class="feedback-icon" id="feedback-icon-placeholder"></span>
+              <span class="feedback-title" id="feedback-title-text">Correct!</span>
+            </div>
+            <p class="feedback-explanation" id="feedback-explanation-text">
+              In JavaScript, typeof null returns 'object'. This is a legacy bug in the language.
+            </p>
+          </div>
+
+          <!-- Control Bar -->
+          <div class="quiz-controls">
+            <button id="btn-next" class="btn btn-secondary hidden">
+              <span>Next Question</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: Analytics Dashboard Screen -->
+      <section id="dashboard-screen" class="screen">
+        <div class="dashboard-grid">
+          
+          <!-- Column 1: Main Stats Panel -->
+          <div class="glass-card main-stats-card">
+            <h2>Quiz Results</h2>
+            <p class="card-subtitle">Here is a detailed breakdown of your performance.</p>
+
+            <div class="score-circle-container">
+              <svg class="score-ring" width="180" height="180">
+                <circle class="score-ring-bg" stroke="rgba(255,255,255,0.06)" stroke-width="12" fill="transparent" r="80" cx="90" cy="90"/>
+                <circle class="score-ring-progress" id="score-ring-indicator" stroke="url(#score-gradient)" stroke-width="12" stroke-linecap="round" fill="transparent" r="80" cx="90" cy="90"/>
+                <!-- Gradient definition for the score stroke -->
+                <defs>
+                  <linearGradient id="score-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#4f46e5" />
+                    <stop offset="100%" stop-color="#06b6d4" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="score-center-text">
+                <span id="final-score-percent" class="score-percentage">80%</span>
+                <span id="final-score-fraction" class="score-fraction">8/10 Correct</span>
+              </div>
+            </div>
+
+            <div class="stat-metrics-row">
+              <div class="metric-box">
+                <span class="metric-label">Avg Time / Q</span>
+                <span id="metric-avg-time" class="metric-value">4.2s</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Time Limit Reached</span>
+                <span id="metric-timeouts" class="metric-value">0</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Focus Strength</span>
+                <span id="metric-focus" class="metric-value">High</span>
+              </div>
+            </div>
+
+            <div class="dashboard-actions">
+              <button id="btn-restart" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                <span>Retry Quiz</span>
+              </button>
+              <button id="btn-home" class="btn btn-outline">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>Back to Home</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Column 2: Chart Analytics Panel -->
+          <div class="glass-card analytics-chart-card">
+            <h3>Performance by Category</h3>
+            <p class="card-subtitle">Detailed percentage score comparison across topics.</p>
+            <div class="chart-wrapper">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Full Width: Detailed Question Review Section -->
+          <div class="glass-card review-list-card">
+            <h3>Detailed Review</h3>
+            <p class="card-subtitle">Review each question, your selected answers, and expert explanations.</p>
+            
+            <div class="review-items-container" id="quiz-review-list">
+              <!-- Inserted dynamically via JavaScript -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>&copy; 2026 AeroQuiz. Built using Javascript, jQuery & Chart.js.</p>
+    </footer>
+  </div>
+
+  <!-- CDN scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Application JS Code -->
+  <script src="app.js"></script>
+</body>
+</html>
